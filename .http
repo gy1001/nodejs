@@ -1,0 +1,6 @@
+POST http://localhost:8000/api/blog/new
+
+{
+  "title": "测试标题2",
+  "content": "测试内容2"
+}
