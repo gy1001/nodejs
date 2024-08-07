@@ -24,8 +24,10 @@ const handlerBlogRouter = (req, res) => {
 
     // 获取博客详情
     if (path === '/api/blog/detail') {
-      const detailData = getDetail(req.query.id)
-      return new SuccessModel(detailData)
+      const result = getDetail(req.query.id)
+      return result.then((detailData) => {
+        return new SuccessModel(detailData)
+      })
     }
   }
 
@@ -33,7 +35,11 @@ const handlerBlogRouter = (req, res) => {
     // 新建一篇博客
     if (path === '/api/blog/new') {
       const blogData = req.body
-      return new SuccessModel(newBlog(blogData))
+      blogData.author = 'zhangsan' // 假数据，待开发登录时候改为真实数据
+      const result = newBlog(blogData)
+      return result.then((data) => {
+        new SuccessModel(data)
+      })
     }
 
     // 更新一篇博客
