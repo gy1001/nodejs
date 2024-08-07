@@ -8,11 +8,13 @@ const handlerUserRouter = (req, res) => {
     // 新建一篇博客
     if (path === '/api/user/login') {
       const { username, password } = req.body
-      const data = loginCheck(username, password)
-      if (data) {
-        return new SuccessModel(data)
-      }
-      return new ErrorModel('账号或者密码错误')
+      const result = loginCheck(username, password)
+      return result.then((data) => {
+        if (data) {
+          return new SuccessModel(data)
+        }
+        return new ErrorModel('账号或者密码错误')
+      })
     }
   }
 }
