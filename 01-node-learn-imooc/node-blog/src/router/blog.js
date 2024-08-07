@@ -44,22 +44,27 @@ const handlerBlogRouter = (req, res) => {
 
     // 更新一篇博客
     if (path === '/api/blog/update') {
-      const data = updateBlog(req.id, req.body)
-      if (data) {
-        return new SuccessModel(data)
-      } else {
-        return new ErrorModel('更新博客失败')
-      }
+      const result = updateBlog(req.id, req.body)
+      return result.then((data) => {
+        if (data) {
+          return new SuccessModel(data)
+        } else {
+          return new ErrorModel('更新博客失败')
+        }
+      })
     }
 
     // 删除一篇博客
     if (path === '/api/blog/del') {
-      const data = deleteBlog(req.id)
-      if (data) {
-        return new SuccessModel(data)
-      } else {
-        return new ErrorModel('删除博客失败')
-      }
+      const author = 'zhangsan' // 假数据，待开发登录时候改为真实数据
+      const result = deleteBlog(req.id, author)
+      return result.then((data) => {
+        if (data) {
+          return new SuccessModel(data)
+        } else {
+          return new ErrorModel('删除博客失败')
+        }
+      })
     }
   }
 }
