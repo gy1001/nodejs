@@ -18,17 +18,31 @@ const handlerUserRouter = (req, res) => {
       return result.then((data) => {
         if (data) {
           // httpOnly表示只能服务器修改使用，客户端不能用
-          res.setHeader(
-            'Set-Cookie',
-            `username=${
-              data.username
-            };path=/;httpOnly;expires=${getCookieExpires()}`,
-          )
+          // res.setHeader(
+          //   'Set-Cookie',
+          //   `username=${
+          //     data.username
+          //   };path=/;httpOnly;expires=${getCookieExpires()}`,
+          // )
+
+          req.session.username = data.username
+          req.session.realname = data.realname
           return new SuccessModel(data)
         }
         return new ErrorModel('账号或者密码错误')
       })
     }
+  }
+
+  if (method === 'GET' && path === '/api/user/login-test') {
+    if (req.session.username) {
+      return Promise.resolve(
+        new SuccessModel({
+          username: req.session.username,
+        }),
+      )
+    }
+    return Promise.resolve(new ErrorModel('尚未登录'))
   }
 }
 
