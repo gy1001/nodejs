@@ -1,6 +1,6 @@
 const { exec } = require('../db/mysql')
 const loginCheck = (username, password) => {
-  const sal = `
+  const sql = `
     select username,realname from users where username="${username}" and password = "${password}"
   `
 

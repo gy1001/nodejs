@@ -32,7 +32,21 @@ const serverHandle = (req, res) => {
   req.path = req.url.split('?')[0]
   // 设置返回格式
   res.setHeader('content-type', 'application/json')
+  // 解析query
   req.query = qs.parse(req.url.split('?')[1])
+  // 解析 cookie
+  const cookieStr = req.headers.cookies || ''
+  req.cookie = {}
+  cookieStr.split(';').forEach((item) => {
+    if (!item) {
+      return
+    }
+    const arr = item.split('=')
+    const key = arr[0].trim()
+    const value = arr[1].trim()
+    req.cookie[key] = value
+  })
+
   getPostData(req).then((resData) => {
     req.body = resData
     // 处理blog 路由
