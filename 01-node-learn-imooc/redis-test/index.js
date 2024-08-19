@@ -15,8 +15,16 @@ async function start() {
 
   await redisClient.set('myname', 'zhangsan')
 
-  const value = await redisClient.get('myname')
-  console.log(value)
+  // const value = await redisClient.get('myname')
+  // console.log(value)
+  redisClient
+    .get('myname')
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 
   await redisClient.quit()
 }
