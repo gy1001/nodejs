@@ -1,6 +1,7 @@
 const { handlerBlogRouter } = require('./src/router/blog')
 const { handlerUserRouter } = require('./src/router/user')
 const qs = require('querystring')
+const { access } = require('./src/utils/log')
 
 // session 数据
 const SESSION_DATA = {}
@@ -37,6 +38,8 @@ const getPostData = (req) => {
 }
 
 const serverHandle = (req, res) => {
+  // 记录 access log
+  access(`${req.method}, -- ${req.url} -- ${req.headers['user-agent']}`)
   req.path = req.url.split('?')[0]
   // 设置返回格式
   res.setHeader('content-type', 'application/json')
